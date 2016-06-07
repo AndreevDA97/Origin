@@ -23,23 +23,41 @@ namespace Cathedra
 
         private void поВладельцамКурсовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var ownerLoad = new DistributeLoadIsOwner(new Repository(new CathedraDBDataContext()));
-            ownerLoad.DistributeLoad();
-            MessageBox.Show("Распределение завершенно");
+            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var ownerLoad = new DistributeLoadIsOwner(new Repository(new CathedraDBDataContext()));
+                ownerLoad.DistributeLoad();
+                MessageBox.Show("Распределение завершенно");
+            }
         }
 
         private void лабараторныеРаботыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var labLoad = new DistributeLoadIsLab(new Repository(new CathedraDBDataContext()), 10);
-            labLoad.DistributeLoad();
-            MessageBox.Show("Распределение завершенно");
+            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var labLoad = new DistributeLoadIsLab(new Repository(new CathedraDBDataContext()), 10);
+                labLoad.DistributeLoad();
+                MessageBox.Show("Распределение завершенно");
+            }
         }
 
         private void вКРИРуководствоМагистрантовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var exchange = new DistributeLoadIsExercisesAndExchange(new Repository(new CathedraDBDataContext()));
-            exchange.DistributeLoad();
-            MessageBox.Show("Распределение завершенно");
+            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var exchange = new DistributeLoadIsExercisesAndExchange(new Repository(new CathedraDBDataContext()));
+                exchange.DistributeLoad();
+                MessageBox.Show("Распределение завершенно");
+            }
         }
 
         private void вКРИРуководствоМагистрантовToolStripMenuItem1_Click(object sender, EventArgs e)

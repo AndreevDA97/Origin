@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs/Cathedra/v14/.suo
+/Cathedra/bin/Debug
+/Cathedra/obj/Debug
+/Cathedra.BL/bin/Debug
+/Cathedra.BLTests/bin/Debug
+/Cathedra.BL/obj/Debug
+/Cathedra.Data/bin/Debug
+/Cathedra.Data/obj/Debug
+/Cathedra.BLTests/obj/Debug
