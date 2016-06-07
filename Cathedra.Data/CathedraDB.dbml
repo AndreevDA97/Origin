@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="iCathedraUniversity" Class="CathedraDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=iCathedraUniversity;Integrated Security=True" SettingsObjectName="Cathedra.Data.Properties.Settings" SettingsPropertyName="iCathedraUniversityConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.SortLoadLinkType" Member="SortLoadLinkType">
+    <Type Name="SortLoadLinkType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="SortLoadLinkType_SortLoadLink" Member="SortLoadLink" ThisKey="Id" OtherKey="SortLoadLinkTypeID" Type="SortLoadLink" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SortLoadLink" Member="SortLoadLink">
+    <Type Name="SortLoadLink">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SortLoadLinkTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SortLoadID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="SortLoadLinkType_SortLoadLink" Member="SortLoadLinkType" ThisKey="SortLoadLinkTypeID" OtherKey="Id" Type="SortLoadLinkType" IsForeignKey="true" />
+      <Association Name="SortLoad_SortLoadLink" Member="SortLoad" ThisKey="SortLoadID" OtherKey="Id" Type="SortLoad" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SortLoadInCourseType" Member="SortLoadInCourseType">
+    <Type Name="SortLoadInCourseType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CourseTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SortLoadID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="SortLoad_SortLoadInCourseType" Member="SortLoad" ThisKey="SortLoadID" OtherKey="Id" Type="SortLoad" IsForeignKey="true" />
+      <Association Name="CourseType_SortLoadInCourseType" Member="CourseType" ThisKey="CourseTypeID" OtherKey="Id" Type="CourseType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SortLoad" Member="SortLoad">
+    <Type Name="SortLoad">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Algorithm" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsClass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsOwner" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsDivideGroups" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PerStudent" Type="System.Decimal" DbType="Decimal(10,3)" CanBeNull="true" />
+      <Association Name="SortLoad_SortLoadLink" Member="SortLoadLink" ThisKey="Id" OtherKey="SortLoadID" Type="SortLoadLink" />
+      <Association Name="SortLoad_SortLoadInCourseType" Member="SortLoadInCourseType" ThisKey="Id" OtherKey="SortLoadID" Type="SortLoadInCourseType" />
+      <Association Name="SortLoad_LoadInCoursePlan" Member="LoadInCoursePlan" ThisKey="Id" OtherKey="SortLoadID" Type="LoadInCoursePlan" />
+      <Association Name="SortLoad_PostAcessDenied" Member="PostAcessDenied" ThisKey="Id" OtherKey="SortLoadID" Type="PostAcessDenied" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Semestr" Member="Semestr">
+    <Type Name="Semestr">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="Semestr_CourseInWork" Member="CourseInWork" ThisKey="ID" OtherKey="Semestr" Type="CourseInWork" />
+      <Association Name="Semestr_GroupInSemestr" Member="GroupInSemestr" ThisKey="ID" OtherKey="Semestr" Type="GroupInSemestr" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SchoolYear" Member="SchoolYear">
+    <Type Name="SchoolYear">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Years" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Association Name="SchoolYear_Rate" Member="Rate" ThisKey="ID" OtherKey="SchoolYearID" Type="Rate" />
+      <Association Name="SchoolYear_CourseInWork" Member="CourseInWork" ThisKey="ID" OtherKey="SchoolYearID" Type="CourseInWork" />
+      <Association Name="SchoolYear_Documents" Member="Documents" ThisKey="ID" OtherKey="DateDocument" Type="Documents" />
+      <Association Name="SchoolYear_GroupInSemestr" Member="GroupInSemestr" ThisKey="ID" OtherKey="SchoolYear" Type="GroupInSemestr" />
+      <Association Name="SchoolYear_PostSalary" Member="PostSalary" ThisKey="ID" OtherKey="SchoolYearID" Type="PostSalary" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Rate" Member="Rate">
+    <Type Name="Rate">
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SchoolYearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Rate" Member="Rate1" Type="System.Decimal" DbType="Decimal(4,3)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PostID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsTradeUnionMember" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PochFondLimit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="SchoolYear_Rate" Member="SchoolYear" ThisKey="SchoolYearID" OtherKey="ID" Type="SchoolYear" IsForeignKey="true" />
+      <Association Name="Employee_Rate" Member="Employee" ThisKey="EmployeeID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+      <Association Name="Post_Rate" Member="Post" ThisKey="PostID" OtherKey="Id" Type="Post" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PreferencesEmployeeWorkTogether" Member="PreferencesEmployeeWorkTogether">
+    <Type Name="PreferencesEmployeeWorkTogether">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmployeeFirstID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployeeSecondID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Priority" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Employee_PreferencesEmployeeWorkTogether" Member="Employee" ThisKey="EmployeeFirstID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+      <Association Name="Employee_PreferencesEmployeeWorkTogether1" Member="Employee1" ThisKey="EmployeeSecondID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassRoom" Member="ClassRoom">
+    <Type Name="ClassRoom">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Number" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="CountPlace" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="ClassRoom_LoadInCourseFact" Member="LoadInCourseFact" ThisKey="Id" OtherKey="ClassRoomID" Type="LoadInCourseFact" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Course" Member="Course">
+    <Type Name="Course">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Speciality" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CourseTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Course_CourseInWork" Member="CourseInWork" ThisKey="ID" OtherKey="CourseID" Type="CourseInWork" />
+      <Association Name="CourseType_Course" Member="CourseType" ThisKey="CourseTypeId" OtherKey="Id" Type="CourseType" IsForeignKey="true" />
+      <Association Name="Employee_Course" Member="Employee" ThisKey="EmployeeID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseInWork" Member="CourseInWork">
+    <Type Name="CourseInWork">
+      <Column Name="CourseID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SchoolYearID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Semestr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FormStudy" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DocumentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CourseInWork_GroupInCourse" Member="GroupInCourse" ThisKey="ID" OtherKey="CourseInWorkID" Type="GroupInCourse" />
+      <Association Name="CourseInWork_LoadInCoursePlan" Member="LoadInCoursePlan" ThisKey="ID" OtherKey="CourseInWorkID" Type="LoadInCoursePlan" />
+      <Association Name="Course_CourseInWork" Member="Course" ThisKey="CourseID" OtherKey="ID" Type="Course" IsForeignKey="true" />
+      <Association Name="SchoolYear_CourseInWork" Member="SchoolYear" ThisKey="SchoolYearID" OtherKey="ID" Type="SchoolYear" IsForeignKey="true" />
+      <Association Name="Semestr_CourseInWork" Member="Semestr1" ThisKey="Semestr" OtherKey="ID" Type="Semestr" IsForeignKey="true" />
+      <Association Name="Documents_CourseInWork" Member="Documents" ThisKey="DocumentId" OtherKey="DocumentId" Type="Documents" IsForeignKey="true" />
+      <Association Name="Employee_CourseInWork" Member="Employee" ThisKey="EmployeeID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseType" Member="CourseType">
+    <Type Name="CourseType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="CourseType_SortLoadInCourseType" Member="SortLoadInCourseType" ThisKey="Id" OtherKey="CourseTypeID" Type="SortLoadInCourseType" />
+      <Association Name="CourseType_Course" Member="Course" ThisKey="Id" OtherKey="CourseTypeId" Type="Course" />
+      <Association Name="CourseType_CourseTypeInDocument" Member="CourseTypeInDocument" ThisKey="Id" OtherKey="CourseTypeId" Type="CourseTypeInDocument" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseTypeInDocument" Member="CourseTypeInDocument">
+    <Type Name="CourseTypeInDocument">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DocumentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CourseTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CourseType_CourseTypeInDocument" Member="CourseType" ThisKey="CourseTypeId" OtherKey="Id" Type="CourseType" IsForeignKey="true" />
+      <Association Name="Documents_CourseTypeInDocument" Member="Documents" ThisKey="DocumentId" OtherKey="DocumentId" Type="Documents" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Documents" Member="Documents">
+    <Type Name="Documents">
+      <Column Name="DocumentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="DateDocument" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Documents_CourseInWork" Member="CourseInWork" ThisKey="DocumentId" OtherKey="DocumentId" Type="CourseInWork" />
+      <Association Name="Documents_CourseTypeInDocument" Member="CourseTypeInDocument" ThisKey="DocumentId" OtherKey="DocumentId" Type="CourseTypeInDocument" />
+      <Association Name="SchoolYear_Documents" Member="SchoolYear" ThisKey="DateDocument" OtherKey="ID" Type="SchoolYear" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employee">
+    <Type Name="Employee">
+      <Column Name="Fio" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PostID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NonActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="[E-mail]" Member="E_mail" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Employee_Rate" Member="Rate" ThisKey="Id" OtherKey="EmployeeID" Type="Rate" />
+      <Association Name="Employee_PreferencesEmployeeWorkTogether" Member="PreferencesEmployeeWorkTogether" ThisKey="Id" OtherKey="EmployeeFirstID" Type="PreferencesEmployeeWorkTogether" />
+      <Association Name="Employee_PreferencesEmployeeWorkTogether1" Member="PreferencesEmployeeWorkTogether1" ThisKey="Id" OtherKey="EmployeeSecondID" Type="PreferencesEmployeeWorkTogether" />
+      <Association Name="Employee_Course" Member="Course" ThisKey="Id" OtherKey="EmployeeID" Type="Course" />
+      <Association Name="Employee_CourseInWork" Member="CourseInWork" ThisKey="Id" OtherKey="EmployeeID" Type="CourseInWork" />
+      <Association Name="Employee_LoadInCourseFact" Member="LoadInCourseFact" ThisKey="Id" OtherKey="EmployeeID" Type="LoadInCourseFact" />
+      <Association Name="Post_Employee" Member="Post" ThisKey="PostID" OtherKey="Id" Type="Post" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Group">
+    <Type Name="Group">
+      <Column Name="[Group]" Member="Group1" Type="System.String" DbType="NVarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="Speciality" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SpecialityName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IsOchniki" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Group_GroupInSemestr" Member="GroupInSemestr" ThisKey="ID" OtherKey="GroupID" Type="GroupInSemestr" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupInCourse" Member="GroupInCourse">
+    <Type Name="GroupInCourse">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupInSemestrID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CourseInWorkID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="GroupInCourse_LoadInCourseFact" Member="LoadInCourseFact" ThisKey="Id" OtherKey="GroupInCourseID" Type="LoadInCourseFact" />
+      <Association Name="CourseInWork_GroupInCourse" Member="CourseInWork" ThisKey="CourseInWorkID" OtherKey="ID" Type="CourseInWork" IsForeignKey="true" />
+      <Association Name="GroupInSemestr_GroupInCourse" Member="GroupInSemestr" ThisKey="GroupInSemestrID" OtherKey="ID" Type="GroupInSemestr" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GroupInSemestr" Member="GroupInSemestr">
+    <Type Name="GroupInSemestr">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Semestr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="QuantityStudent" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="GroupInSemestr_GroupInCourse" Member="GroupInCourse" ThisKey="ID" OtherKey="GroupInSemestrID" Type="GroupInCourse" />
+      <Association Name="Group_GroupInSemestr" Member="Group" ThisKey="GroupID" OtherKey="ID" Type="Group" IsForeignKey="true" />
+      <Association Name="SchoolYear_GroupInSemestr" Member="SchoolYear1" ThisKey="SchoolYear" OtherKey="ID" Type="SchoolYear" IsForeignKey="true" />
+      <Association Name="Semestr_GroupInSemestr" Member="Semestr1" ThisKey="Semestr" OtherKey="ID" Type="Semestr" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LoadInCourseFact" Member="LoadInCourseFact">
+    <Type Name="LoadInCourseFact">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CountHours" Type="System.Decimal" DbType="Decimal(7,2) NOT NULL" CanBeNull="false" />
+      <Column Name="PochFond" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LoadInCoursePlanID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ClassRoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GroupInCourseID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="ClassRoom_LoadInCourseFact" Member="ClassRoom" ThisKey="ClassRoomID" OtherKey="Id" Type="ClassRoom" IsForeignKey="true" />
+      <Association Name="Employee_LoadInCourseFact" Member="Employee" ThisKey="EmployeeID" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+      <Association Name="GroupInCourse_LoadInCourseFact" Member="GroupInCourse" ThisKey="GroupInCourseID" OtherKey="Id" Type="GroupInCourse" IsForeignKey="true" />
+      <Association Name="LoadInCoursePlan_LoadInCourseFact" Member="LoadInCoursePlan" ThisKey="LoadInCoursePlanID" OtherKey="Id" Type="LoadInCoursePlan" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LoadInCoursePlan" Member="LoadInCoursePlan">
+    <Type Name="LoadInCoursePlan">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CountHours" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CourseInWorkID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SortLoadID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="LoadInCoursePlan_LoadInCourseFact" Member="LoadInCourseFact" ThisKey="Id" OtherKey="LoadInCoursePlanID" Type="LoadInCourseFact" />
+      <Association Name="CourseInWork_LoadInCoursePlan" Member="CourseInWork" ThisKey="CourseInWorkID" OtherKey="ID" Type="CourseInWork" IsForeignKey="true" />
+      <Association Name="SortLoad_LoadInCoursePlan" Member="SortLoad" ThisKey="SortLoadID" OtherKey="Id" Type="SortLoad" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Post" Member="Post">
+    <Type Name="Post">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Association Name="Post_Rate" Member="Rate" ThisKey="Id" OtherKey="PostID" Type="Rate" />
+      <Association Name="Post_Employee" Member="Employee" ThisKey="Id" OtherKey="PostID" Type="Employee" />
+      <Association Name="Post_PostAcessDenied" Member="PostAcessDenied" ThisKey="Id" OtherKey="PostID" Type="PostAcessDenied" />
+      <Association Name="Post_PostSalary" Member="PostSalary" ThisKey="Id" OtherKey="PostID" Type="PostSalary" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostAcessDenied" Member="PostAcessDenied">
+    <Type Name="PostAcessDenied">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PostID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SortLoadID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Post_PostAcessDenied" Member="Post" ThisKey="PostID" OtherKey="Id" Type="Post" IsForeignKey="true" />
+      <Association Name="SortLoad_PostAcessDenied" Member="SortLoad" ThisKey="SortLoadID" OtherKey="Id" Type="SortLoad" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostSalary" Member="PostSalary">
+    <Type Name="PostSalary">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PostID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RateInHours" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="K" Type="System.Decimal" DbType="Decimal(8,7)" CanBeNull="true" />
+      <Column Name="SchoolYearID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BaseSalary" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="PostSalary" Member="PostSalary1" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="GradeSurcharge" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="PostSurcharge" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Association Name="Post_PostSalary" Member="Post" ThisKey="PostID" OtherKey="Id" Type="Post" IsForeignKey="true" />
+      <Association Name="SchoolYear_PostSalary" Member="SchoolYear" ThisKey="SchoolYearID" OtherKey="ID" Type="SchoolYear" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
