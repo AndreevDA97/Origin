@@ -9,7 +9,6 @@ namespace Cathedra.BL
 {
     public class DistributeLoadIsOwner
     {
-        CathedraDBDataContext _db;
         Repository _repository;
 
         public DistributeLoadIsOwner(Repository repository)

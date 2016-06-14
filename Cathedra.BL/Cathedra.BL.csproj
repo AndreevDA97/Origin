@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +44,8 @@
     <Compile Include="DistributeLoadIsExercisesAndExchange.cs" />
     <Compile Include="DistributeLoadIsLab.cs" />
     <Compile Include="DistributeLoadIsOwner.cs" />
+    <Compile Include="EmployeeExtended.cs" />
+    <Compile Include="EmployeeLinkType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -47,13 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmployeeExtended.cs" />
-    <Compile Include="EmployeeLinkType.cs" />
     <Compile Include="FormDistributionVKR.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormDistributionVKR.Designer.cs">
       <DependentUpon>FormDistributionVKR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDistriduteLoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDistriduteLoad.Designer.cs">
+      <DependentUpon>FormDistriduteLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditLoadFact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditLoadFact.Designer.cs">
+      <DependentUpon>FormEditLoadFact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPreferencesEmployeeWorkTogether.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPreferencesEmployeeWorkTogether.Designer.cs">
+      <DependentUpon>FormPreferencesEmployeeWorkTogether.cs</DependentUpon>
     </Compile>
     <Compile Include="FormReport.cs">
       <SubType>Form</SubType>
@@ -61,11 +77,53 @@
     <Compile Include="FormReport.Designer.cs">
       <DependentUpon>FormReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReportEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportEmployee.Designer.cs">
+      <DependentUpon>FormReportEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewEmployee.Designer.cs">
+      <DependentUpon>FormViewEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormViewLoadEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormViewLoadEmployee.Designer.cs">
       <DependentUpon>FormViewLoadEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewLoadFact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewLoadFact.Designer.cs">
+      <DependentUpon>FormViewLoadFact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewPost.Designer.cs">
+      <DependentUpon>FormViewPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewPostScalary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewPostScalary.Designer.cs">
+      <DependentUpon>FormViewPostScalary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewRate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewRate.Designer.cs">
+      <DependentUpon>FormViewRate.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -78,11 +136,41 @@
     <EmbeddedResource Include="FormDistributionVKR.resx">
       <DependentUpon>FormDistributionVKR.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormDistriduteLoad.resx">
+      <DependentUpon>FormDistriduteLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditLoadFact.resx">
+      <DependentUpon>FormEditLoadFact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPreferencesEmployeeWorkTogether.resx">
+      <DependentUpon>FormPreferencesEmployeeWorkTogether.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportEmployee.resx">
+      <DependentUpon>FormReportEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewEmployee.resx">
+      <DependentUpon>FormViewEmployee.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormViewLoadEmployee.resx">
       <DependentUpon>FormViewLoadEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewLoadFact.resx">
+      <DependentUpon>FormViewLoadFact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewPost.resx">
+      <DependentUpon>FormViewPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewPostScalary.resx">
+      <DependentUpon>FormViewPostScalary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewRate.resx">
+      <DependentUpon>FormViewRate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -98,6 +186,10 @@
     </Compile>
     <None Include="Properties\DataSources\Cathedra.Data.Documents.datasource" />
     <None Include="Properties\DataSources\Cathedra.Data.Employee.datasource" />
+    <None Include="Properties\DataSources\Cathedra.Data.Post.datasource" />
+    <None Include="Properties\DataSources\Cathedra.Data.PostSalary.datasource" />
+    <None Include="Properties\DataSources\Cathedra.Data.PreferencesEmployeeWorkTogether.datasource" />
+    <None Include="Properties\DataSources\Cathedra.Data.Rate.datasource" />
     <None Include="Properties\DataSources\Cathedra.Data.SchoolYear.datasource" />
     <None Include="Properties\DataSources\Cathedra.Data.Semestr.datasource" />
     <None Include="Properties\Settings.settings">

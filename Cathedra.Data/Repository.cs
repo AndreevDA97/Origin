@@ -12,6 +12,29 @@ namespace Cathedra.Data
         CathedraDBDataContext _db;
         int _schoolYear = Properties.Settings.Default.SchollYearID;
 
+        public static void InstallSettings(int SchollYearID, int LoadPercent)
+        {
+            if (LoadPercent >= 0)
+                Properties.Settings.Default.LoadPercent = LoadPercent;
+            else
+                throw new ArgumentException("Процент отклонения должен быть больше 0");
+
+            if (new CathedraDBDataContext().SchoolYear.Any(x => x.ID == SchollYearID))
+                Properties.Settings.Default.SchollYearID = SchollYearID;
+            else
+                throw new ArgumentException(string.Format("Не существует учебного года с ID = {0}", SchollYearID));
+        }
+
+        public static int GetSchollYearID()
+        {
+            return Properties.Settings.Default.SchollYearID;
+        }
+
+        public static int GetLoadPercent()
+        {
+            return Properties.Settings.Default.LoadPercent;
+        }
+
         public Repository(CathedraDBDataContext db)
         {
             _db = db;
@@ -19,8 +42,8 @@ namespace Cathedra.Data
 
         public IEnumerable<LoadInCoursePlan> GetTableLoadInCoursePlan()
         {
-            var d = _db.LoadInCourseFact;
-            return _db.LoadInCoursePlan.Where(x => x.CourseInWork.SchoolYearID == _schoolYear);
+            return _db.LoadInCoursePlan.Where(x => x.CourseInWork.SchoolYearID == _schoolYear
+                        && x.LoadInCourseFact.Count == 0) ;
         }
 
         public void AddLoadInCourseFact(LoadInCourseFact fact)
@@ -414,6 +437,7 @@ namespace Cathedra.Data
             returnString += ("Учебный год: ").PadRight(40) + sy.Years + "\r\n";
             returnString += ("Ставка по коммерческому набору: ").PadRight(40) + this.RateForm + "\r\n";
             returnString += ("Часов нагрузки согласно ставке:").PadRight(40) + this.RateInHours + "\r\n";
+            returnString += "\r\nНастоящий вариант НОСИТ ПРЕДВАРИТЕЛЬНЫЙ ХАРАКТЕР и служит для \r\nконтроля правильности распределения нагрузки на " + sy.Years+ " учебный год! \r\nИтоговым документом является индивидуальный план, подписываемый преподавателем\r\n";
             returnString += "\r\n";
 
             #region Формальная нагрузка
@@ -525,7 +549,8 @@ namespace Cathedra.Data
             var listLoad = new List<LoadLab>();
 
             var collection = this.LoadInCourseFact
-                .Where(x => x.LoadInCoursePlan.SortLoad.Id == 7 && x.LoadInCoursePlan.CourseInWork.IsDivisionLab && x.LoadInCoursePlan.CourseInWork.EmployeeID == this.Id)
+                .Where(x => x.LoadInCoursePlan.SortLoad.Id == 7 && x.LoadInCoursePlan.CourseInWork.IsDivisionLab && x.LoadInCoursePlan.CourseInWork.EmployeeID == this.Id
+                        && x.LoadInCoursePlan.LoadInCourseFact.Sum(y => y.CountHours) != x.LoadInCoursePlan.CountHours)
                 .Select(x => new { PlanId = x.LoadInCoursePlanID, Hourse = x.CountHours });
 
             foreach (var item in collection)

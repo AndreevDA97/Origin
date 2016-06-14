@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cathedra.BL;
 
 namespace Cathedra
 {
@@ -44,6 +45,7 @@ namespace Cathedra
                     Name = item2.Name,
                     HeaderText = item2.Name + "\n" + item2.Groups,
                     ReadOnly = true,
+                    Width = 120,
                     DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleRight },
                     SortMode = DataGridViewColumnSortMode.NotSortable
                 });
@@ -100,7 +102,8 @@ namespace Cathedra
                 var cell = new DataGridViewTextBoxCell();
                 cell.Style = new DataGridViewCellStyle() { WrapMode = DataGridViewTriState.True };
                 cell.Value = "Всего   : " + item2.TotalStudent.ToString() +
-                             "\nОсталось: " + item2.UnallocatedStudent.ToString();
+                             "\nОсталось: " + item2.UnallocatedStudent.ToString() + 
+                             "\nНа студента: " + item2.PerStudent;
                 int position = row.Cells.Add(cell);
                 row.Cells.Add(new DataGridViewTextBoxCell());
                 row.Cells.Add(new DataGridViewTextBoxCell());
@@ -227,6 +230,11 @@ namespace Cathedra
                     UpdateDataGridView();
                 }
             }
+        }
+
+        private void FormDistributionVKR_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

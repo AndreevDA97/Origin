@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cathedra
+namespace Cathedra.BL
 {
     public class EmployeeExtended
     {
@@ -54,19 +54,21 @@ namespace Cathedra
             }
         }
 
+        
+
         public EmployeeExtended(Employee emp, CathedraDBDataContext db, Repository rep)
         {
             _emp = emp;
             _db = db;
             _rep = rep;
-
             _elt = new List<EmployeeLinkType>();
             foreach (var item in db.SortLoadLinkType.OrderBy(x => x.Id))
             {
                 var collection = item.SortLoadLink.First().SortLoad.LoadInCoursePlan;
+                var sum = (decimal)item.SortLoadLink.Sum(x => x.SortLoad.PerStudent);
                 foreach (var licp in collection)
                 {
-                    _elt.Add(new EmployeeLinkType(emp, db, licp));
+                    _elt.Add(new EmployeeLinkType(emp, db, licp, sum));
                 }
             }
         }

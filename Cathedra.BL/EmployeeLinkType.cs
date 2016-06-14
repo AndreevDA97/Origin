@@ -5,19 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cathedra
+namespace Cathedra.BL
 {
     public class EmployeeLinkType
     {
         private CathedraDBDataContext _db;
         private Employee _emp;
         private LoadInCoursePlan _lilcp;
+        private decimal _sum;
 
-        public EmployeeLinkType(Employee emp, CathedraDBDataContext db, LoadInCoursePlan lilcp)
+        public EmployeeLinkType(Employee emp, CathedraDBDataContext db, LoadInCoursePlan lilcp, decimal sum)
         {
             _emp = emp;
             _db = db;
             _lilcp = lilcp;
+            _sum = sum;
+        }
+
+        public decimal PerStudent
+        {
+            get
+            {
+                _sum = 0;
+                var coll = _db.LoadInCoursePlan
+                    .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
+                        == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
+                    .Where(x => x.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID == _lilcp.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID);
+                foreach (var item in coll)
+                {
+                    _sum += (decimal)item.SortLoad.PerStudent;
+                }
+                return _sum;
+            }
         }
 
         public Employee Employee
@@ -125,7 +144,6 @@ namespace Cathedra
 
         int GetNoDistributionlLoad(LoadInCoursePlan sllt)
         {
-           // var s = sllt.LoadInCourseFact.FirstOrDefault()?.CountHours ??  / sllt.SortLoad.PerStudent;
             var s = from sllts in _db.SortLoadLinkType
                     join sll in _db.SortLoadLink on sllts.Id equals sll.SortLoadLinkTypeID
                     join sl in _db.SortLoad on sll.SortLoadID equals sl.Id

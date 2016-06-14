@@ -15,50 +15,18 @@ namespace Cathedra
 {
     public partial class MainForm : Form
     {
+
+        CathedraDBDataContext _db = new CathedraDBDataContext();
+        Repository _rep;
+
         public MainForm()
         {
             InitializeComponent();
             employeeBindingSource.DataSource = new CathedraDBDataContext().Employee.Where(x => !x.NonActive);
+            _rep = new Repository(_db);
         }
 
-        private void поВладельцамКурсовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
-                                 MessageBoxButtons.YesNo,
-                                 MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                var ownerLoad = new DistributeLoadIsOwner(new Repository(new CathedraDBDataContext()));
-                ownerLoad.DistributeLoad();
-                MessageBox.Show("Распределение завершенно");
-            }
-        }
 
-        private void лабараторныеРаботыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
-                                 MessageBoxButtons.YesNo,
-                                 MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                var labLoad = new DistributeLoadIsLab(new Repository(new CathedraDBDataContext()), 10);
-                labLoad.DistributeLoad();
-                MessageBox.Show("Распределение завершенно");
-            }
-        }
-
-        private void вКРИРуководствоМагистрантовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
-                                 MessageBoxButtons.YesNo,
-                                 MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                var exchange = new DistributeLoadIsExercisesAndExchange(new Repository(new CathedraDBDataContext()));
-                exchange.DistributeLoad();
-                MessageBox.Show("Распределение завершенно");
-            }
-        }
 
         private void вКРИРуководствоМагистрантовToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -73,34 +41,110 @@ namespace Cathedra
             var form = new FormReport();
             form.ShowDialog();
         }
-
-        private void поПреподователямToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        private void поРаспределеннойНагрузкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var q = from emp in new CathedraDBDataContext().Employee
-                    where !emp.NonActive
-                    select emp;
-            string alldata = "";
+            var str = "";
+            var collection = (from licp in _db.LoadInCoursePlan
+                              join ciw in _db.CourseInWork on licp.CourseInWorkID equals ciw.ID
+                              join sl in _db.SortLoad on licp.SortLoadID equals sl.Id
+                              join slict in _db.SortLoadInCourseType on sl.Id equals slict.SortLoadID
+                              join d in _db.Documents on ciw.DocumentId equals d.DocumentId
+                              join ct in _db.CourseType on slict.CourseTypeID equals ct.Id
+                              where d.CourseTypeInDocument.Any(x => x.CourseTypeId == ct.Id)
+                              select new
+                              {
+                                  Plan = licp,
+                                  Doc = d,
+                                  Type = ct,
+                                  Work = ciw
+                              });
 
-            var sy = (from schoolYear in new CathedraDBDataContext().SchoolYear
-                      where schoolYear.ID == 8
-                      select schoolYear).FirstOrDefault();
-
-            foreach (Employee employee in q)
+            foreach (var item in collection.GroupBy(x => x.Doc))
             {
-                alldata += employee.GetEmployeeInfo(sy) + "\r\n";
+                str += item.Key.Name + "\r\n";
+                foreach (var item2 in item.GroupBy(x => x.Type))
+                {
+                    str += "\t" + item2.Key.Name + "\r\n";
+                    foreach (var item3 in item2.GroupBy(x => x.Work.FormStudy))
+                    {
+                        str += "\t\t" + (item3.Key == true ? "Очники" : "Заочники") + "\r\n";
+                        foreach (var item4 in item3.GroupBy(x => x.Work.Semestr1))
+                        {
+                            str += string.Format("\t\t\t{0} семестр. \r\n\t\t\t\tПо плану: \t{1} часов. \r\n\t\t\t\tРаспределено: \t{2} часов.\r\n",
+                                item4.Key.Name, item4.Sum(x => x.Plan.CountHours), item4.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+                        }
+                        str += string.Format("\t\t{0} / {1}\r\n", item3.Sum(x => x.Plan.CountHours), item3.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+                    }
+                    str += string.Format("\t{0} / {1}\r\n", item2.Sum(x => x.Plan.CountHours), item2.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+                }
+                str += string.Format("{0} / {1}\r\n\r\n", item.Sum(x => x.Plan.CountHours), item.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
             }
-            File.WriteAllText("Employee.txt", alldata, Encoding.GetEncoding(1251));
-            MessageBox.Show(@"Сформирован файл Employee.txt в текущем каталоге", @"Результаты", MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            str += string.Format("Всего по плану {0} часов.\r\nРаспределено {1}", 
+                collection.Sum(x => x.Plan.CountHours), collection.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+            var form = new FormViewLoadEmployee(str);
+            form.ShowDialog();
         }
 
-        private void дляВыбранногоToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void настройкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var employee = (Employee)employeeBindingSource.Current;
-            var sy = (from s in new CathedraDBDataContext().SchoolYear
-                      where s.ID == 8
-                      select s).FirstOrDefault();
-            var form = new FormViewLoadEmployee(employee.GetEmployeeInfo(sy));
+            var form = new FormSettings(_db);
+            form.ShowDialog();
+        }
+
+        private void сотрудниковToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormViewEmployee(_db);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void ставокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormViewRate(_db);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void должностейToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormViewPost(_db);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void окладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormViewPostScalary(_db);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void автоматическоеРаспределениеНагрузкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormDistriduteLoad(_db, _rep);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void связаннаяНагрузкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormDistributionVKR(_db, _rep, 0.05m);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void поКурсамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormViewLoadFact(_db);
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void поПреподавателямToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormReportEmployee(_db);
             form.ShowDialog();
         }
     }
