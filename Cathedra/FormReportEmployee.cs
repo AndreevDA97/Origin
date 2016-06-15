@@ -57,5 +57,54 @@ namespace Cathedra
         {
             Close();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string returnString = "Фамилия".PadRight(30) + "|" +
+                "Должность".PadRight(20) + "|" +
+                "Часов по ставке".PadRight(15) + "|" +
+                "Факт. нагрузка".PadRight(14) + "|" +
+                "Перегрузка".PadRight(10) + "|" +
+                "Недогрузка".PadRight(10) + "|" + Environment.NewLine;
+
+            decimal workloadForm = 0;
+            decimal overload = 0;
+            decimal underload = 0;
+            decimal workloadFact = 0;
+
+            List<Employee> employeeList = (from emp in _db.Employee
+                                           where emp.NonActive == false
+                                           select emp).ToList();
+
+            foreach (Employee eisy in employeeList)
+            {
+                if (eisy.RateInHours != 0 ||
+                    eisy.Overload != 0 ||
+                    eisy.Underload != 0)
+                {
+                    returnString += eisy.Fio.PadRight(30) + "|" +
+                        eisy.Post.Name.PadRight(20) + "|" +
+                        eisy.RateInHours.ToString().PadLeft(15) + "|" +
+                        eisy.WorkLoad.ToString().PadLeft(15) + "|" +
+                        eisy.Overload.ToString().PadLeft(10) + "|" +
+                        eisy.Underload.ToString().PadLeft(10) + "|" + Environment.NewLine;
+
+                    workloadForm += eisy.RateInHours;
+                    overload += eisy.Overload;
+                    underload += eisy.Underload;
+                    workloadFact += eisy.WorkLoad;
+                }
+            }
+            returnString += "\n";
+            returnString += "ИТОГО: ".PadRight(30) + "|" +
+                    "".PadRight(20) + "|" +
+                    workloadForm.ToString().PadLeft(15) + "|" +
+                    workloadFact.ToString().PadLeft(15) + "|" +
+                    overload.ToString().PadLeft(10) + "|" +
+                    underload.ToString().PadLeft(10) + "|" + Environment.NewLine;
+
+            FormViewLoadEmployee foemEditor = new FormViewLoadEmployee(returnString);
+            foemEditor.ShowDialog();
+        }
     }
 }

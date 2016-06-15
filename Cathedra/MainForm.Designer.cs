@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.поАудиторнымЗанятиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.поРаспределеннойНагрузкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сотрудниковToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ставокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,17 +40,18 @@
             this.связаннойНагрузкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.аудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.группToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.управлениеНагрузкойToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поКурсамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поПреподователямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.связаннаяНагрузкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.автоматическоеРаспределениеНагрузкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.employeeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.поАудиторнымЗанятиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.поРаспределеннойНагрузкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поПреподавателямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -70,30 +67,6 @@
             this.menuStrip.Size = new System.Drawing.Size(788, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
-            // 
-            // отчетыToolStripMenuItem
-            // 
-            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.поАудиторнымЗанятиямToolStripMenuItem,
-            this.поРаспределеннойНагрузкиToolStripMenuItem,
-            this.поПреподавателямToolStripMenuItem});
-            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
-            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.отчетыToolStripMenuItem.Text = "Отчеты";
-            // 
-            // поАудиторнымЗанятиямToolStripMenuItem
-            // 
-            this.поАудиторнымЗанятиямToolStripMenuItem.Name = "поАудиторнымЗанятиямToolStripMenuItem";
-            this.поАудиторнымЗанятиямToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.поАудиторнымЗанятиямToolStripMenuItem.Text = "По аудиторным занятиям";
-            this.поАудиторнымЗанятиямToolStripMenuItem.Click += new System.EventHandler(this.поАудиторнымЗанятиямToolStripMenuItem_Click);
-            // 
-            // поРаспределеннойНагрузкиToolStripMenuItem
-            // 
-            this.поРаспределеннойНагрузкиToolStripMenuItem.Name = "поРаспределеннойНагрузкиToolStripMenuItem";
-            this.поРаспределеннойНагрузкиToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.поРаспределеннойНагрузкиToolStripMenuItem.Text = "По распределенной нагрузки";
-            this.поРаспределеннойНагрузкиToolStripMenuItem.Click += new System.EventHandler(this.поРаспределеннойНагрузкиToolStripMenuItem_Click);
             // 
             // справочникиToolStripMenuItem
             // 
@@ -176,12 +149,6 @@
             this.группToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.группToolStripMenuItem.Text = "Групп";
             // 
-            // выходToolStripMenuItem
-            // 
-            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.выходToolStripMenuItem.Text = "Выход";
-            // 
             // управлениеНагрузкойToolStripMenuItem
             // 
             this.управлениеНагрузкойToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -192,13 +159,6 @@
             this.управлениеНагрузкойToolStripMenuItem.Name = "управлениеНагрузкойToolStripMenuItem";
             this.управлениеНагрузкойToolStripMenuItem.Size = new System.Drawing.Size(144, 20);
             this.управлениеНагрузкойToolStripMenuItem.Text = "Управление нагрузкой";
-            // 
-            // настройкиToolStripMenuItem
-            // 
-            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.настройкиToolStripMenuItem.Text = "Настройки";
-            this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
             // 
             // поКурсамToolStripMenuItem
             // 
@@ -227,9 +187,29 @@
             this.автоматическоеРаспределениеНагрузкиToolStripMenuItem.Text = "Автоматическое распределение нагрузки";
             this.автоматическоеРаспределениеНагрузкиToolStripMenuItem.Click += new System.EventHandler(this.автоматическоеРаспределениеНагрузкиToolStripMenuItem_Click);
             // 
-            // employeeBindingSource
+            // отчетыToolStripMenuItem
             // 
-            this.employeeBindingSource.DataSource = typeof(Cathedra.Data.Employee);
+            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.поАудиторнымЗанятиямToolStripMenuItem,
+            this.поРаспределеннойНагрузкиToolStripMenuItem,
+            this.поПреподавателямToolStripMenuItem});
+            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
+            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.отчетыToolStripMenuItem.Text = "Отчеты";
+            // 
+            // поАудиторнымЗанятиямToolStripMenuItem
+            // 
+            this.поАудиторнымЗанятиямToolStripMenuItem.Name = "поАудиторнымЗанятиямToolStripMenuItem";
+            this.поАудиторнымЗанятиямToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.поАудиторнымЗанятиямToolStripMenuItem.Text = "По аудиторным занятиям";
+            this.поАудиторнымЗанятиямToolStripMenuItem.Click += new System.EventHandler(this.поАудиторнымЗанятиямToolStripMenuItem_Click);
+            // 
+            // поРаспределеннойНагрузкиToolStripMenuItem
+            // 
+            this.поРаспределеннойНагрузкиToolStripMenuItem.Name = "поРаспределеннойНагрузкиToolStripMenuItem";
+            this.поРаспределеннойНагрузкиToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.поРаспределеннойНагрузкиToolStripMenuItem.Text = "По распределенной нагрузки";
+            this.поРаспределеннойНагрузкиToolStripMenuItem.Click += new System.EventHandler(this.поРаспределеннойНагрузкиToolStripMenuItem_Click);
             // 
             // поПреподавателямToolStripMenuItem
             // 
@@ -237,6 +217,19 @@
             this.поПреподавателямToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.поПреподавателямToolStripMenuItem.Text = "По преподавателям";
             this.поПреподавателямToolStripMenuItem.Click += new System.EventHandler(this.поПреподавателямToolStripMenuItem_Click);
+            // 
+            // настройкиToolStripMenuItem
+            // 
+            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.настройкиToolStripMenuItem.Text = "Настройки";
+            this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.выходToolStripMenuItem.Text = "Выход";
             // 
             // MainForm
             // 
@@ -251,7 +244,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,7 +254,6 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem поАудиторнымЗанятиямToolStripMenuItem;
-        private System.Windows.Forms.BindingSource employeeBindingSource;
         private System.Windows.Forms.ToolStripMenuItem поРаспределеннойНагрузкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сотрудниковToolStripMenuItem;

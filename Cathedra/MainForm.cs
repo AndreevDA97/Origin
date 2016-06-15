@@ -22,7 +22,6 @@ namespace Cathedra
         public MainForm()
         {
             InitializeComponent();
-            employeeBindingSource.DataSource = new CathedraDBDataContext().Employee.Where(x => !x.NonActive);
             _rep = new Repository(_db);
         }
 
@@ -80,8 +79,7 @@ namespace Cathedra
                 }
                 str += string.Format("{0} / {1}\r\n\r\n", item.Sum(x => x.Plan.CountHours), item.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
             }
-            str += string.Format("Всего по плану {0} часов.\r\nРаспределено {1}", 
-                collection.Sum(x => x.Plan.CountHours), collection.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+            str += string.Format("Всего по плану {0} часов.\r\nРаспределено {1}", _db.LoadInCoursePlan.Sum(x => x.CountHours), _db.LoadInCourseFact.Sum(x => x.CountHours));
             var form = new FormViewLoadEmployee(str);
             form.ShowDialog();
         }

@@ -15,7 +15,7 @@ namespace Cathedra
         public FormViewLoadEmployee(string str)
         {
             InitializeComponent();
-            textBox.Text = str;
+            richTextBoxMain.Text = str;
         }
     }
 }
