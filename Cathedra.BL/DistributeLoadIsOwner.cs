@@ -18,8 +18,14 @@ namespace Cathedra.BL
 
         public IEnumerable<LoadInCourseFact> DistributeLoad()
         {
-            var loadInCourseFact = new List<LoadInCourseFact>();
             var loadIsOwner = _repository.GetTableLoadInCoursePlan().Where(x => x.SortLoad.Algorithm == 1);
+
+            return DistributeLoad(loadIsOwner, true);
+        }
+
+        public IEnumerable<LoadInCourseFact> DistributeLoad(IEnumerable<LoadInCoursePlan> loadIsOwner, bool saveData)
+        {
+            var loadInCourseFact = new List<LoadInCourseFact>();
 
             foreach (var load in loadIsOwner)
             {
@@ -36,7 +42,8 @@ namespace Cathedra.BL
                             Approved = true
                         };
                         loadInCourseFact.Add(lf);
-                        _repository.AddLoadInCourseFact(lf);
+                        if(saveData)
+                            _repository.AddLoadInCourseFact(lf);
                     }
                 }
             }

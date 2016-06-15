@@ -33,7 +33,7 @@ namespace Cathedra
         {
             preferencesEmployeeWorkTogetherBindingSource.MoveLast();
             var last = (PreferencesEmployeeWorkTogether)preferencesEmployeeWorkTogetherBindingSource.Current;
-            preferencesEmployeeWorkTogetherBindingSource.Add(new PreferencesEmployeeWorkTogether() { Priority = last.Priority + 1 });
+            preferencesEmployeeWorkTogetherBindingSource.Add(new PreferencesEmployeeWorkTogether() { EmployeeFirstID = _emp.Id, Priority = last.Priority + 1 });
         }
 
         private void buttonDel_Click(object sender, EventArgs e)

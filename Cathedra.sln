@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cathedra.Data", "Cathedra.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cathedra.BL", "Cathedra.BL\Cathedra.BL.csproj", "{C8CF0648-FDBE-4760-9B1A-30B7773729D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cathedra.BLTests", "Cathedra.BLTests\Cathedra.BLTests.csproj", "{1424D8F9-942C-44E0-A205-15A3A6E04DCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cathedra.BL.Tests", "Cathedra.BLTests\Cathedra.BL.Tests.csproj", "{1424D8F9-942C-44E0-A205-15A3A6E04DCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{77EF02A4-EC56-45D3-BED4-6838CCCFA519}"
 EndProject

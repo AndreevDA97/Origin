@@ -20,16 +20,21 @@ namespace Cathedra.BL
 
         public IEnumerable<LoadInCourseFact> DistributeLoad()
         {
+            var loadLab = _repository.GetTableLoadInCoursePlan().Where(x => x.SortLoad.Algorithm == 2);
+            return DistributeLoad(loadLab, true);
+        }
+
+        public IEnumerable<LoadInCourseFact> DistributeLoad(IEnumerable<LoadInCoursePlan> loadLab, bool saveData)
+        {
             var lf = new List<LoadInCourseFact>();
-            lf.AddRange(DistributeLoadIsOwner());
-            lf.AddRange(DistributeLoadSecondEmployee());
+            lf.AddRange(DistributeLoadIsOwner(loadLab, saveData));
+            lf.AddRange(DistributeLoadSecondEmployee(saveData));
             return lf;
         }
 
-        public IEnumerable<LoadInCourseFact> DistributeLoadIsOwner()
+        public IEnumerable<LoadInCourseFact> DistributeLoadIsOwner(IEnumerable<LoadInCoursePlan> loadLab, bool saveData)
         {
             var loadInCourseFact = new List<LoadInCourseFact>();
-            var loadLab = _repository.GetTableLoadInCoursePlan().Where(x => x.SortLoad.Algorithm == 2);
 
             foreach (var load in loadLab)
             {
@@ -54,7 +59,7 @@ namespace Cathedra.BL
             return loadInCourseFact;
         }
 
-        public IEnumerable<LoadInCourseFact> DistributeLoadSecondEmployee()
+        public IEnumerable<LoadInCourseFact> DistributeLoadSecondEmployee(bool saveData)
         {
             var loadInCourseFact = new List<LoadInCourseFact>();
             _repository = new Repository(new CathedraDBDataContext());
@@ -106,7 +111,8 @@ namespace Cathedra.BL
                 }
             }
 
-            _repository.SubmitChanges();
+            if (saveData)
+                _repository.SubmitChanges();
 
             foreach (var item in lempLab.Where(x => x.Mask != 0))
             {

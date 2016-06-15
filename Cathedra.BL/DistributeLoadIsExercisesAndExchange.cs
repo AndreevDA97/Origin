@@ -10,7 +10,6 @@ namespace Cathedra.BL
     public class DistributeLoadIsExercisesAndExchange
     {
         Repository _repository;
-        int _maxDelta;
 
         public DistributeLoadIsExercisesAndExchange(Repository repository)
         {
@@ -19,8 +18,14 @@ namespace Cathedra.BL
 
         public IEnumerable<LoadInCourseFact> DistributeLoad()
         {
-            var loadInCourseFact = new List<LoadInCourseFact>();
             var load = _repository.GetTableLoadInCoursePlan().Where(x => x.SortLoad.Algorithm == 4);
+
+            return DistributeLoad(load, true);
+        }
+
+        public IEnumerable<LoadInCourseFact> DistributeLoad(IEnumerable<LoadInCoursePlan> load, bool saveData)
+        {
+            var loadInCourseFact = new List<LoadInCourseFact>();
 
             foreach (var l in load)
             {
@@ -41,7 +46,8 @@ namespace Cathedra.BL
                                 Approved = null
                             };
                             loadInCourseFact.Add(lf);
-                            _repository.AddLoadInCourseFact(lf);
+                            if (saveData)
+                                _repository.AddLoadInCourseFact(lf);
                             priority = 0;
                         }
                         else

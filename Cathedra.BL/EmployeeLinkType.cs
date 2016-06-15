@@ -89,8 +89,14 @@ namespace Cathedra.BL
             }
         }
 
-        public void AddStudent()
+        public decimal AddStudent()
         {
+            return AddStudent(true);
+        }
+
+        public decimal AddStudent(bool saveData)
+        {
+            var countHours = 0m;
             var coll = _db.LoadInCoursePlan
                     .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
                         == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
@@ -112,12 +118,22 @@ namespace Cathedra.BL
                         Approved = true
                     });
                 }
-                _db.SubmitChanges();
+                countHours += (decimal)item.SortLoad.PerStudent;
+                if (saveData)
+                    _db.SubmitChanges();
             }
+
+            return countHours;
         }
 
-        public void DeleteStudent()
+        public decimal DeleteStudent()
         {
+            return DeleteStudent(true);
+        }
+
+        public decimal DeleteStudent(bool saveData)
+        {
+            var countHours = 0m;
             var coll = _db.LoadInCoursePlan
                     .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
                         == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
@@ -132,9 +148,13 @@ namespace Cathedra.BL
                     {
                         _db.LoadInCourseFact.DeleteOnSubmit(z.Single());
                     }
+                    countHours += z.Single().CountHours;
                 }
             }
-            _db.SubmitChanges();
+            if (saveData)
+                _db.SubmitChanges();
+
+            return countHours;
         }
 
         int GetTotalLoad(LoadInCoursePlan sllt)

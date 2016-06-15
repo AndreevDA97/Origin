@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cathedra.Data;
 
 namespace Cathedra.BL.Tests
 {
@@ -13,25 +12,18 @@ namespace Cathedra.BL.Tests
     public class DistributeLoadIsLabTests
     {
         [TestMethod()]
-        public void DistributeLoadIsOwnerTest()
+        public void DistributeLoadTest()
         {
-            //var db = new Repository();
-            //var ownerLoad = new DistributeLoadIsLab(db, 10);
+            var repository = new Data.Repository(new Data.CathedraDBDataContext());
+            var plan = repository.GetTableLoadInCoursePlan().Where(x => x.SortLoad.Algorithm == 2);
+            var planSumHourse = plan.Sum(x => x.CountHours);
+            var classTest = new DistributeLoadIsLab(repository, 0);
+            var saveData = false;
 
-            ////IEnumerable<LoadInCourseFact> result =  ownerLoad.DistributeLoadIsOwner();
+            var result = classTest.DistributeLoad(plan, saveData);
+            var resultSumHourse = result.Sum(x => x.CountHours);
 
-            //Assert.IsNotNull(true);
-        }
-
-        [TestMethod()]
-        public void DistributeLoadSecondEmployeeTest()
-        {
-            //var db = new Repository();
-            //var ownerLoad = new DistributeLoadIsLab(db, 10);
-
-            ////IEnumerable<LoadInCourseFact> result = ownerLoad.DistributeLoadSecondEmployee();
-
-            //Assert.IsNotNull(true);
+            Assert.AreEqual(resultSumHourse, planSumHourse);
         }
     }
 }

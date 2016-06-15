@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -54,6 +55,7 @@
     <Compile Include="DistributeLoadIsExercisesAndExchangeTests.cs" />
     <Compile Include="DistributeLoadIsLabTests.cs" />
     <Compile Include="DistributeLoadIsOwnerTests.cs" />
+    <Compile Include="EmployeeLinkTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
