@@ -62,6 +62,7 @@ namespace Cathedra
         {
             string returnString = "Фамилия".PadRight(30) + "|" +
                 "Должность".PadRight(20) + "|" +
+                "Ставка".PadRight(10) + "|" +
                 "Часов по ставке".PadRight(15) + "|" +
                 "Факт. нагрузка".PadRight(14) + "|" +
                 "Перегрузка".PadRight(10) + "|" +
@@ -84,6 +85,7 @@ namespace Cathedra
                 {
                     returnString += eisy.Fio.PadRight(30) + "|" +
                         eisy.Post.Name.PadRight(20) + "|" +
+                        eisy.Rate.FirstOrDefault(x => x.SchoolYearID==8).Rate1.ToString().PadRight(10) + "|" +
                         eisy.RateInHours.ToString().PadLeft(15) + "|" +
                         eisy.WorkLoad.ToString().PadLeft(15) + "|" +
                         eisy.Overload.ToString().PadLeft(10) + "|" +
@@ -98,6 +100,7 @@ namespace Cathedra
             returnString += "\n";
             returnString += "ИТОГО: ".PadRight(30) + "|" +
                     "".PadRight(20) + "|" +
+                    "".PadRight(10) + "|" +
                     workloadForm.ToString().PadLeft(15) + "|" +
                     workloadFact.ToString().PadLeft(15) + "|" +
                     overload.ToString().PadLeft(10) + "|" +
