@@ -475,8 +475,12 @@ namespace Cathedra.Data
                         // Проверяем, кто является владельцем курса
                         if (licf.LoadInCoursePlan.CourseInWork.Employee != null && Id != licf.LoadInCoursePlan.CourseInWork.Employee.Id)
                             addstr += "(ответственный - " + licf.LoadInCoursePlan.CourseInWork.Employee.ShortName + ")";
+
+                        if (licf.GroupInCourseID != null)
+                            addstr += " гр." + licf.Groups;
+
                         returnString += String.Format("                    {0} - {1} {2}\r\n",
-                            licf.LoadInCoursePlan.SortLoad.Name, licf.CountHours, addstr);
+                        licf.LoadInCoursePlan.SortLoad.Name, licf.CountHours, addstr);
 
                         itogo += licf.CountHours;
                         itogoSemestr += licf.CountHours;
