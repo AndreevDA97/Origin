@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Cathedra.BL;
 using Cathedra.Data;
 using System.IO;
+using System.Configuration;
 
 namespace Cathedra
 {
@@ -22,10 +23,24 @@ namespace Cathedra
         public MainForm()
         {
             InitializeComponent();
+            _db = new CathedraDBDataContext(GetConnectionStrings());
             _rep = new Repository(_db);
         }
 
+        static string GetConnectionStrings()
+        {
+            var settings = ConfigurationManager.ConnectionStrings;
 
+            if (settings != null)
+            {
+                foreach (ConnectionStringSettings cs in settings)
+                {
+                    if (cs.Name == "iCathedraUniversityConnectionString")
+                        return cs.ConnectionString;
+                }
+            }
+            return null;
+        }
 
         private void вКРИРуководствоМагистрантовToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -144,6 +159,13 @@ namespace Cathedra
         {
             var form = new FormReportEmployee(_db);
             form.ShowDialog();
+        }
+
+        private void добавитьНагрузкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormEditLoad(_db);
+            form.MdiParent = this;
+            form.Show();
         }
     }
 }

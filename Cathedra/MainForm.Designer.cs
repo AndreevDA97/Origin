@@ -51,6 +51,7 @@
             this.поПреподавателямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьНагрузкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,7 +156,8 @@
             this.поКурсамToolStripMenuItem,
             this.поПреподователямToolStripMenuItem,
             this.связаннаяНагрузкаToolStripMenuItem,
-            this.автоматическоеРаспределениеНагрузкиToolStripMenuItem});
+            this.автоматическоеРаспределениеНагрузкиToolStripMenuItem,
+            this.добавитьНагрузкуToolStripMenuItem});
             this.управлениеНагрузкойToolStripMenuItem.Name = "управлениеНагрузкойToolStripMenuItem";
             this.управлениеНагрузкойToolStripMenuItem.Size = new System.Drawing.Size(144, 20);
             this.управлениеНагрузкойToolStripMenuItem.Text = "Управление нагрузкой";
@@ -231,6 +233,13 @@
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.выходToolStripMenuItem.Text = "Выход";
             // 
+            // добавитьНагрузкуToolStripMenuItem
+            // 
+            this.добавитьНагрузкуToolStripMenuItem.Name = "добавитьНагрузкуToolStripMenuItem";
+            this.добавитьНагрузкуToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.добавитьНагрузкуToolStripMenuItem.Text = "Добавить нагрузку";
+            this.добавитьНагрузкуToolStripMenuItem.Click += new System.EventHandler(this.добавитьНагрузкуToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,6 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem связаннаяНагрузкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem автоматическоеРаспределениеНагрузкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem поПреподавателямToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem добавитьНагрузкуToolStripMenuItem;
     }
 }
 
