@@ -136,7 +136,7 @@ namespace Cathedra
             if (listSortLoad.Count() != 0)
             {
                 ctlSortLoads.Rows.Clear();
-                foreach (var workLoad in listSortLoad)
+                foreach (var workLoad in listSortLoad.OrderBy(item => item.Id))
                 {
                     ctlSortLoads.Rows.Add(workLoad.Id, workLoad.Name, 0);
                 }
