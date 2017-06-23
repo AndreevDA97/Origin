@@ -53,7 +53,7 @@ namespace Cathedra.BL
                         else
                         {
                             emp = empOwner.GetEmployeeWorkTogether(++priority)
-                                ?? _repository.GetEmployeeLowLoad().Last();
+                                ?? _repository.GetEmployeeLowLoad()?.LastOrDefault() ?? empOwner;
                         }
                     } while (priority != 0);
                 }

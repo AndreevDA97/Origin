@@ -23,7 +23,7 @@ namespace Cathedra
         public MainForm()
         {
             InitializeComponent();
-            _db = new CathedraDBDataContext(GetConnectionStrings());
+            _db = new CathedraDBDataContext();
             _rep = new Repository(_db);
         }
 

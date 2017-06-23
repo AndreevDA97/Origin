@@ -13,3 +13,5 @@
 /Cathedra.BLTests/obj/Debug
 /.vs/Cathedra/v15/.suo
 /.vs/Cathedra/v15
+/Database_log.ldf
+/Database.mdf

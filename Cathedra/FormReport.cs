@@ -51,7 +51,7 @@ namespace Cathedra
             ls.Add("<p align=\"right\"><b>Кафедра АСУ</b></p>");
             ls.Add("<h1 align=\"center\">РАСПРЕДЕЛЕНИЕ</h1>");
             string s = String.Format("учебной нагрузки для {0} {1} на {2} семестр {3} учебного года", 
-                (int)comboBox1.SelectedValue == 13 ? "магистрантов" : "бакалавров", 
+                (int)comboBox1.SelectedValue == 16 ? "магистрантов" : "бакалавров", 
                 radioButtonOchniki.Checked ? "очников" : "заочников", semestr.Name.ToLower(), sy.Years);
             ls.Add("<p align=\"center\">" + s + "</p>");
             ls.Add("<table border=\"1\">");
