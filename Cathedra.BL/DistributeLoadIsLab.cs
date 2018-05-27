@@ -1,6 +1,7 @@
 ﻿using Cathedra.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,8 @@ namespace Cathedra.BL
                             CountHours = load.CountHours / countEmployee,
                             LoadInCoursePlanID = load.Id,
                             EmployeeID = emp.Id,
-                            Approved = null
+                            Approved = null,
+                            ClassRoomID = _repository.GetClassRoomIDAtPreviousYears(load)
                         };
                         loadInCourseFact.Add(lf);
                         _repository.AddLoadInCourseFact(lf);
@@ -67,7 +69,7 @@ namespace Cathedra.BL
             var lempLab = new List<Employee>();
             foreach (var item in emp)
             {
-                if(item.ListLoadLabInit())
+                if(item.ListLoadLabInit(_repository))
                 {
                     lempLab.Add(item);
                 }    
@@ -121,6 +123,8 @@ namespace Cathedra.BL
                     item.GetSumOnMask(item.Mask),
                     item.ListLoadLab.Select(x => x.CountHourse.ToString()).Aggregate((x, y) => y = x + " , " + y));
             }
+
+            File.WriteAllText("lab.txt", str);
 
             return loadInCourseFact;
 

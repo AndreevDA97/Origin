@@ -44,5 +44,27 @@ namespace Cathedra
             _db.SubmitChanges();
             Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Действительно разбить нагрузку?", "",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var loadFact = _db.LoadInCourseFact.Single(x => x.Id == _loadFactID);
+                loadFact.CountHours = loadFact.CountHours / 2;
+                _db.LoadInCourseFact.InsertOnSubmit(new LoadInCourseFact
+                {
+                    Approved = true,
+                    ClassRoomID = loadFact.ClassRoomID,
+                    CountHours = loadFact.CountHours,
+                    EmployeeID = loadFact.EmployeeID,
+                    LoadInCoursePlanID = loadFact.LoadInCoursePlanID
+                });
+                _db.SubmitChanges();
+                Close();
+            }
+        }
     }
 }

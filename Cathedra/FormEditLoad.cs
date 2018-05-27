@@ -32,6 +32,7 @@ namespace Cathedra
         {
             dataGridView1.DataSource = from plan in _db.LoadInCoursePlan
                                        join work in _db.CourseInWork on plan.CourseInWorkID equals work.ID
+                                       where work.SchoolYearID == (int)comboBoxYear.SelectedValue
                                        select new
                                        {
                                            Course = work.Course.Name,
@@ -172,8 +173,10 @@ namespace Cathedra
         {
             decimal countHours;
             decimal totalHours = 0;
+            
             for (int i = 0; i < ctlSortLoads.RowCount - 1; i++)
             {
+                ctlSortLoads.Rows[i].Cells[2].Value = ctlSortLoads.Rows[i].Cells[2].Value.ToString().Replace(".", ",");
                 if (Decimal.TryParse(ctlSortLoads.Rows[i].Cells[2].Value.ToString(), out countHours) == true)
                 {
                     totalHours += countHours;
@@ -204,6 +207,7 @@ namespace Cathedra
 
         private void comboBoxType_SelectedValueChanged(object sender, EventArgs e)
         {
+            UpdataGrid();
             UpdateSotrList();
         }
 

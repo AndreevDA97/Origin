@@ -10,7 +10,7 @@ namespace Cathedra.Data
     public class Repository
     {
         CathedraDBDataContext _db;
-        int _schoolYear = Properties.Settings.Default.SchollYearID;
+        public static int SchoolYear => Properties.Settings.Default.SchollYearID;
 
         public static void InstallSettings(int SchollYearID, int LoadPercent)
         {
@@ -35,6 +35,18 @@ namespace Cathedra.Data
             return Properties.Settings.Default.LoadPercent;
         }
 
+        public int? GetClassRoomIDAtPreviousYears(LoadInCoursePlan loadInCoursePlan)
+        {
+            return _db.LoadInCourseFact
+                .Where(licf => licf.LoadInCoursePlan.CourseInWork.SchoolYearID != SchoolYear
+                    && licf.LoadInCoursePlan.CourseInWork.CourseID == loadInCoursePlan.CourseInWork.CourseID
+                    && licf.LoadInCoursePlan.SortLoadID == loadInCoursePlan.SortLoadID
+                    && licf.ClassRoomID.HasValue)
+                .OrderByDescending(licf => licf.LoadInCoursePlan.CourseInWork.SchoolYearID)
+                .FirstOrDefault()
+                ?.ClassRoomID;
+        }
+
         public Repository(CathedraDBDataContext db)
         {
             _db = db;
@@ -42,7 +54,7 @@ namespace Cathedra.Data
 
         public IEnumerable<LoadInCoursePlan> GetTableLoadInCoursePlan()
         {
-            return _db.LoadInCoursePlan.Where(x => x.CourseInWork.SchoolYearID == _schoolYear
+            return _db.LoadInCoursePlan.Where(x => x.CourseInWork.SchoolYearID == SchoolYear
                         && x.LoadInCourseFact.Count == 0) ;
         }
 
@@ -77,15 +89,15 @@ namespace Cathedra.Data
         public decimal GetEmployeeRateInYear(Employee employee)
         {
             var em = _db.Employee.Where(x => x.Id == employee.Id).Single();
-            var rate = em.Rate.Where(x => x.SchoolYearID == _schoolYear).Single().Rate1;
-            var rateInHouse = em.Post.PostSalary.Where(x => x.SchoolYearID == _schoolYear).Single().RateInHours;
+            var rate = em.Rate.Where(x => x.SchoolYearID == SchoolYear).Single().Rate1;
+            var rateInHouse = em.Post.PostSalary.Where(x => x.SchoolYearID == SchoolYear).Single().RateInHours;
             return (decimal)(rate * rateInHouse);
         }
 
         public decimal GetSecureCountHourseEmployee(Employee employee)
         {
             var d = _db.LoadInCourseFact
-                .Where(x => x.EmployeeID == employee.Id && x.LoadInCoursePlan.CourseInWork.SchoolYearID == _schoolYear
+                .Where(x => x.EmployeeID == employee.Id && x.LoadInCoursePlan.CourseInWork.SchoolYearID == SchoolYear
                 && (x.Approved == true || x.Approved == null));
             return d.Count() == 0 ? 0 : d.Sum(x => x.CountHours);
         }
@@ -463,7 +475,8 @@ namespace Cathedra.Data
                         itogoSemestr = 0;
                     }
                     semestr = (short)(course.Key.CourseInWork.Semestr ?? 2);
-                    returnString += "\r\n" + course.Key.CourseInWork.Semestr1?.Name  + " семестр\r\n";
+                    if (course.Key.CourseInWork.Semestr1 != null)
+                        returnString += "\r\n" + course.Key.CourseInWork.Semestr1?.Name  + " семестр\r\n";
                 }
                 returnString += course.Key.CourseInWork.Course.Name + ", гр." + course.Key.CourseInWork.Groups + "\r\n";
 
@@ -548,18 +561,19 @@ namespace Cathedra.Data
             }
         }
 
-        public bool ListLoadLabInit()
+        public bool ListLoadLabInit(Repository repository)
         {
             var listLoad = new List<LoadLab>();
 
             var collection = this.LoadInCourseFact
+                .Where(x => x.LoadInCoursePlan.CourseInWork.SchoolYearID == Repository.SchoolYear)
                 .Where(x => x.LoadInCoursePlan.SortLoad.Id == 7 && x.LoadInCoursePlan.CourseInWork.IsDivisionLab && x.LoadInCoursePlan.CourseInWork.EmployeeID == this.Id
                         && x.LoadInCoursePlan.LoadInCourseFact.Sum(y => y.CountHours) != x.LoadInCoursePlan.CountHours)
-                .Select(x => new { PlanId = x.LoadInCoursePlanID, Hourse = x.CountHours });
+                .Select(x => new { PlanId = x.LoadInCoursePlanID, Hourse = x.CountHours, ClassRoomID = repository.GetClassRoomIDAtPreviousYears(x.LoadInCoursePlan) });
 
             foreach (var item in collection)
             {
-                listLoad.Add(new LoadLab((int)item.PlanId, item.Hourse));
+                listLoad.Add(new LoadLab((int)item.PlanId, item.Hourse, item.ClassRoomID));
             }
             listLoad = listLoad.OrderBy(x => x.CountHourse).ToList();
 
@@ -602,7 +616,8 @@ namespace Cathedra.Data
                 var lf = new LoadInCourseFact
                 {
                     CountHours = item.CountHourse,
-                    LoadInCoursePlanID = item.PlanID
+                    LoadInCoursePlanID = item.PlanID,
+                    ClassRoomID = item.ClassRoomID
                 };
                 this.LoadInCourseFact.Add(lf);
                 loadInCourseFact.Add(lf);
@@ -633,42 +648,19 @@ namespace Cathedra.Data
 
     public class LoadLab
     {
-        private decimal _countHourse;
-        private bool _bit = true;
-        private int _planID;
 
-        public decimal CountHourse
-        {
-            get
-            {
-                return _countHourse;
-            }
-        }
+        public decimal CountHourse { get; }
 
-        public int PlanID
-        {
-            get
-            {
-                return _planID;
-            }
-        }
+        public int PlanID { get; }
 
-        public bool Bit
-        {
-            get
-            {
-                return _bit;
-            }
-            set
-            {
-                _bit = value;
-            }
-        }
+        public bool Bit { get; set; } = true;
+        public int? ClassRoomID { get; set; }
 
-        public LoadLab(int planID, decimal countHourse)
+        public LoadLab(int planID, decimal countHourse, int? classRoomID)
         {
-            _countHourse = countHourse;
-            _planID = planID;
+            CountHourse = countHourse;
+            PlanID = planID;
+            ClassRoomID = classRoomID;
         }
     }
 

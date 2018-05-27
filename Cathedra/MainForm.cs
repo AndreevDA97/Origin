@@ -66,6 +66,7 @@ namespace Cathedra
                               join d in _db.Documents on ciw.DocumentId equals d.DocumentId
                               join ct in _db.CourseType on slict.CourseTypeID equals ct.Id
                               where d.CourseTypeInDocument.Any(x => x.CourseTypeId == ct.Id)
+                               && ciw.SchoolYearID == Repository.SchoolYear
                               select new
                               {
                                   Plan = licp,
@@ -86,7 +87,7 @@ namespace Cathedra
                         foreach (var item4 in item3.GroupBy(x => x.Work.Semestr1))
                         {
                             str += string.Format("\t\t\t{0} семестр. \r\n\t\t\t\tПо плану: \t{1} часов. \r\n\t\t\t\tРаспределено: \t{2} часов.\r\n",
-                                item4.Key.Name, item4.Sum(x => x.Plan.CountHours), item4.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
+                                item4.Key?.Name ?? "---", item4.Sum(x => x.Plan.CountHours), item4.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
                         }
                         str += string.Format("\t\t{0} / {1}\r\n", item3.Sum(x => x.Plan.CountHours), item3.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
                     }
@@ -94,7 +95,9 @@ namespace Cathedra
                 }
                 str += string.Format("{0} / {1}\r\n\r\n", item.Sum(x => x.Plan.CountHours), item.Sum(x => x.Plan.LoadInCourseFact.Sum(y => y.CountHours)));
             }
-            str += string.Format("Всего по плану {0} часов.\r\nРаспределено {1}", _db.LoadInCoursePlan.Sum(x => x.CountHours), _db.LoadInCourseFact.Sum(x => x.CountHours));
+            str += string.Format("Всего по плану {0} часов.\r\nРаспределено {1}", 
+                _db.LoadInCoursePlan.Where(p => p.CourseInWork.SchoolYearID == Repository.SchoolYear).Sum(x => x.CountHours), 
+                _db.LoadInCourseFact.Where(f => f.LoadInCoursePlan.CourseInWork.SchoolYearID == Repository.SchoolYear).Sum(x => x.CountHours));
             var form = new FormViewLoadEmployee(str);
             form.ShowDialog();
         }

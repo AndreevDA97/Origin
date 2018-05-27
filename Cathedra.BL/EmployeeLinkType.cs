@@ -28,9 +28,11 @@ namespace Cathedra.BL
             {
                 _sum = 0;
                 var coll = _db.LoadInCoursePlan
+                    .Where(x => x.CourseInWork.SchoolYearID == Repository.SchoolYear)
                     .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
                         == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
-                    .Where(x => x.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID == _lilcp.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID);
+                    .Where(x => x.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID 
+                        == _lilcp.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID);
                 foreach (var item in coll)
                 {
                     _sum += (decimal)item.SortLoad.PerStudent;
@@ -98,6 +100,7 @@ namespace Cathedra.BL
         {
             var countHours = 0m;
             var coll = _db.LoadInCoursePlan
+                    .Where(x => x.CourseInWork.SchoolYearID == Repository.SchoolYear)
                     .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
                         == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
                     .Where(x => x.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID == _lilcp.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID);
@@ -135,6 +138,7 @@ namespace Cathedra.BL
         {
             var countHours = 0m;
             var coll = _db.LoadInCoursePlan
+                .Where(x => x.CourseInWork.SchoolYearID == Repository.SchoolYear)
                     .Where(x => x.CourseInWork.GroupInCourse.First().GroupInSemestr
                         == _lilcp.CourseInWork.GroupInCourse.First().GroupInSemestr) //дороботать
                     .Where(x => x.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID == _lilcp.SortLoad.SortLoadLink.Single().SortLoadLinkTypeID);
@@ -170,7 +174,7 @@ namespace Cathedra.BL
                     join lp in _db.LoadInCoursePlan on sl.Id equals lp.SortLoadID
                     join work in _db.CourseInWork on lp.CourseInWorkID equals work.ID
                     join fact in _db.LoadInCourseFact on lp.Id equals fact.LoadInCoursePlanID
-                    where lp.Id == sllt.Id
+                    where lp.Id == sllt.Id && work.SchoolYearID == Repository.SchoolYear
                     select new
                     {
                         count = fact.CountHours / sl.PerStudent,

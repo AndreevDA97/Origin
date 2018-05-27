@@ -64,7 +64,8 @@ namespace Cathedra.BL
             _elt = new List<EmployeeLinkType>();
             foreach (var item in db.SortLoadLinkType.OrderBy(x => x.Id))
             {
-                var collection = item.SortLoadLink.First().SortLoad.LoadInCoursePlan;
+                var collection = item.SortLoadLink.First().SortLoad
+                    .LoadInCoursePlan.Where(licp => licp.CourseInWork.SchoolYearID == Repository.SchoolYear);
                 var sum = (decimal)item.SortLoadLink.Sum(x => x.SortLoad.PerStudent);
                 foreach (var licp in collection)
                 {

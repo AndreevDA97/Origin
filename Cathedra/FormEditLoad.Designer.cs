@@ -350,11 +350,11 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 28;
-            this.button1.Text = "button1";
+            this.button1.Text = "Обновить";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.comboBoxType_SelectedValueChanged);
             // 
-            // Form1
+            // FormEditLoad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -372,7 +372,7 @@
             this.Controls.Add(this.groupBoxStudyLoads);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
-            this.Name = "Form1";
+            this.Name = "FormEditLoad";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBoxGroups.ResumeLayout(false);

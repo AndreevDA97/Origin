@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace Cathedra
                 .Where(x => x.CourseInWork.SchoolYearID == Repository.GetSchollYearID()
                     && (x.LoadInCourseFact.Count == 0 || x.LoadInCourseFact.Sum(y => y.CountHours) != x.CountHours));
                 
-            dataGridView1.DataSource = s.Select(x => new
+            dataGridView1.DataSource = s.Select(x => new PlanLoad
             {
                 ID = x.Id,
                 Course = x.CourseInWork.Course.Name,
@@ -103,6 +104,39 @@ namespace Cathedra
                 MessageBox.Show("Распределение завершенно");
                 UpdateDataGridView();
             }
+        }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Действительно распределить нагрузку?", "",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var dataGridView = (DataGridView)sender;
+                var planLoad = (PlanLoad)dataGridView.SelectedRows[0].DataBoundItem;
+                var loadInCoursePlan = _db.LoadInCoursePlan.Single(p => p.Id == planLoad.ID);
+                _rep.AddLoadInCourseFact(new LoadInCourseFact
+                {
+                    Approved = true,
+                    ClassRoomID = _rep.GetClassRoomIDAtPreviousYears(loadInCoursePlan),
+                    EmployeeID = planLoad.Employee?.Id,
+                    CountHours = planLoad.Hourse,
+                    LoadInCoursePlanID = planLoad.ID,
+                });
+                _rep.SubmitChanges();
+            }
+            UpdateDataGridView();
+        }
+
+        private class PlanLoad
+        {
+            public int ID { get; set; }
+            public string Course { get; set; }
+            public string Sort { get; set; }
+            public Employee Employee { get; set; }
+            public decimal Hourse { get; set; }
+            public string Groups { get; set; }
         }
     }
 }

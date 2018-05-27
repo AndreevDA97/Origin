@@ -31,7 +31,7 @@ namespace Cathedra
             string alldata = "";
 
             var sy = (from schoolYear in _db.SchoolYear
-                      where schoolYear.ID == 9
+                      where schoolYear.ID == Repository.SchoolYear
                       select schoolYear).FirstOrDefault();
 
             foreach (Employee employee in q)
@@ -84,8 +84,8 @@ namespace Cathedra
                     eisy.Underload != 0)
                 {
                     returnString += eisy.Fio.PadRight(30) + "|" +
-                        eisy.Post.Name.PadRight(20) + "|" +
-                        eisy.Rate.FirstOrDefault(x => x.SchoolYearID==9).Rate1.ToString().PadRight(10) + "|" +
+                        eisy.Rate.First(r=> r.SchoolYearID== Repository.SchoolYear).Post.Name.PadRight(20) + "|" +
+                        eisy.Rate.FirstOrDefault(x => x.SchoolYearID==Repository.SchoolYear).Rate1.ToString().PadRight(10) + "|" +
                         eisy.RateInHours.ToString().PadLeft(15) + "|" +
                         eisy.WorkLoad.ToString().PadLeft(15) + "|" +
                         eisy.Overload.ToString().PadLeft(10) + "|" +

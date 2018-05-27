@@ -39,7 +39,8 @@ namespace Cathedra.BL
                             CountHours = load.CountHours,
                             LoadInCoursePlanID = load.Id,
                             EmployeeID = emp.Id,
-                            Approved = true
+                            Approved = true,
+                            ClassRoomID = _repository.GetClassRoomIDAtPreviousYears(load)
                         };
                         loadInCourseFact.Add(lf);
                         if(saveData)
