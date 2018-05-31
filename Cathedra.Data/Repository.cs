@@ -89,8 +89,9 @@ namespace Cathedra.Data
         public decimal GetEmployeeRateInYear(Employee employee)
         {
             var em = _db.Employee.Where(x => x.Id == employee.Id).Single();
-            var rate = em.Rate.Where(x => x.SchoolYearID == SchoolYear).Single().Rate1;
-            var rateInHouse = em.Post.PostSalary.Where(x => x.SchoolYearID == SchoolYear).Single().RateInHours;
+            var rateInYear = em.Rate.Where(x => x.SchoolYearID == SchoolYear).Single();
+            var rate = rateInYear.Rate1;
+            var rateInHouse = rateInYear.Post.PostSalary.Where(x => x.SchoolYearID == SchoolYear).Single().RateInHours;
             return (decimal)(rate * rateInHouse);
         }
 
@@ -329,7 +330,7 @@ namespace Cathedra.Data
             if (_fio.Length >= 3) _o = _fio[2][0] + ".";
 
             return string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0} {1} {2}{3}",
-                this.Post.ShortName,
+                this.Rate.FirstOrDefault(r => r.SchoolYearID == Repository.SchoolYear).Post.ShortName,
                 _f, _i, _o);
         }
 
