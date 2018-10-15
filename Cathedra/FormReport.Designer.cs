@@ -43,6 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.documentsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.radioButtonEvening = new System.Windows.Forms.RadioButton();
             this.groupBoxWorkloadType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.semestrBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.schoolYearBindingSource)).BeginInit();
@@ -53,6 +54,7 @@
             // 
             this.groupBoxWorkloadType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxWorkloadType.Controls.Add(this.radioButtonEvening);
             this.groupBoxWorkloadType.Controls.Add(this.radioButtonZaochniki);
             this.groupBoxWorkloadType.Controls.Add(this.radioButtonOchniki);
             this.groupBoxWorkloadType.Location = new System.Drawing.Point(18, 105);
@@ -65,7 +67,7 @@
             // radioButtonZaochniki
             // 
             this.radioButtonZaochniki.AutoSize = true;
-            this.radioButtonZaochniki.Location = new System.Drawing.Point(170, 14);
+            this.radioButtonZaochniki.Location = new System.Drawing.Point(128, 14);
             this.radioButtonZaochniki.Name = "radioButtonZaochniki";
             this.radioButtonZaochniki.Size = new System.Drawing.Size(73, 17);
             this.radioButtonZaochniki.TabIndex = 0;
@@ -180,6 +182,16 @@
             // 
             this.documentsBindingSource.DataSource = typeof(Cathedra.Data.Documents);
             // 
+            // radioButtonEvening
+            // 
+            this.radioButtonEvening.AutoSize = true;
+            this.radioButtonEvening.Location = new System.Drawing.Point(247, 14);
+            this.radioButtonEvening.Name = "radioButtonEvening";
+            this.radioButtonEvening.Size = new System.Drawing.Size(79, 17);
+            this.radioButtonEvening.TabIndex = 0;
+            this.radioButtonEvening.Text = "Вечерники";
+            this.radioButtonEvening.UseVisualStyleBackColor = true;
+            // 
             // FormReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,6 +208,7 @@
             this.Controls.Add(this.buttonCreate);
             this.Name = "FormReport";
             this.Text = "FormReport";
+            this.Load += new System.EventHandler(this.FormReport_Load);
             this.groupBoxWorkloadType.ResumeLayout(false);
             this.groupBoxWorkloadType.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.semestrBindingSource)).EndInit();
@@ -222,5 +235,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.BindingSource documentsBindingSource;
+        private System.Windows.Forms.RadioButton radioButtonEvening;
     }
 }

@@ -32,13 +32,24 @@ namespace Cathedra
 
             List<string> ls = new List<string>();
 
-            var q = from cif in myDatabase.CourseInWork
-                    where
-                        cif.SchoolYear.ID == sy.ID &&
-                        cif.Semestr == semestr.ID &&
-                        cif.FormStudy == radioButtonOchniki.Checked && cif.DocumentId == (int)comboBox1.SelectedValue
-                    orderby cif.Course.ID, cif.ID
-                    select cif;
+            var q = myDatabase.CourseInWork
+                .Where(cif =>
+                    cif.SchoolYear.ID == sy.ID &&
+                    cif.Semestr == semestr.ID &&
+                    // && 
+                    cif.DocumentId == (int)comboBox1.SelectedValue)
+                .OrderBy(cif => cif.Course.ID)
+                .ThenBy(cif => cif.ID)
+                .AsQueryable();
+
+            if (!radioButtonEvening.Checked)
+                q = q.Where(cif => cif.FormStudy == radioButtonOchniki.Checked && !cif.GroupInCourse.Any(gic => gic.GroupInSemestr.Group.Group1.Contains("В") || gic.GroupInSemestr.Group.Group1.Contains("B")));
+            else
+                q = q.Where(cif => cif.GroupInCourse.Any(gic => gic.GroupInSemestr.Group.Group1.Contains("В") || gic.GroupInSemestr.Group.Group1.Contains("B")));
+
+            var form = radioButtonEvening.Checked ? "вечерников" : radioButtonOchniki.Checked ? "очников" : "заочников";
+            var step = comboBox1.Text.Contains("магистр") ? "магистрантов" : "бакалавров";
+
 
             ls.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
             ls.Add("<html>");
@@ -50,9 +61,9 @@ namespace Cathedra
             ls.Add("<p align=\"center\">Для составления расписания занятий со студентами представить в учебный отдел к _______________ 20 __ г.</p>");
             ls.Add("<p align=\"right\"><b>Кафедра АСУ</b></p>");
             ls.Add("<h1 align=\"center\">РАСПРЕДЕЛЕНИЕ</h1>");
-            string s = String.Format("учебной нагрузки для {0} {1} на {2} семестр {3} учебного года", 
-                (int)comboBox1.SelectedValue == 16 ? "магистрантов" : "бакалавров", 
-                radioButtonOchniki.Checked ? "очников" : "заочников", semestr.Name.ToLower(), sy.Years);
+            string s = String.Format("учебной нагрузки для {0} {1} на {2} семестр {3} учебного года",
+                step,
+                form, semestr.Name.ToLower(), sy.Years);
             ls.Add("<p align=\"center\">" + s + "</p>");
             ls.Add("<table border=\"1\">");
             ls.Add("<thead>");
@@ -117,13 +128,20 @@ namespace Cathedra
             ls.Add(" </body>");
             ls.Add("</html>");
 
-            File.WriteAllLines("Shedule" + (int)comboBox1.SelectedValue + semestr.ToString() + radioButtonOchniki.Checked.ToString() + ".html", ls.ToArray(), Encoding.GetEncoding(1251));
-            Process.Start("Shedule" + (int)comboBox1.SelectedValue + semestr.ToString() + radioButtonOchniki.Checked.ToString() + ".html");
+            var fileName = $"Shedule_{sy.Years.Replace('/', '_')}_{step}_{form}.html";
+
+            File.WriteAllLines(fileName, ls.ToArray(), Encoding.GetEncoding(1251));
+            Process.Start(fileName);
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void FormReport_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
